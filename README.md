@@ -58,7 +58,7 @@ Orbit Sim is prepared for Streamlit Community Cloud.
 4. Select repository `Miguel-Galrito/orbit-sim`, branch `main`, and file `streamlit_app.py`.
 5. Click **Deploy**.
 
-Community Cloud creates a shareable `streamlit.app` URL and monitors the linked GitHub repository for updates. The repository includes `requirements.txt` so the dashboard dependencies are installed automatically. citeturn772748search0turn772748search1turn772748search3
+Community Cloud creates a shareable `streamlit.app` URL and monitors the linked GitHub repository for updates. The repository includes `requirements.txt` so the dashboard dependencies are installed automatically.
 
 ## 🧱 Architecture
 
