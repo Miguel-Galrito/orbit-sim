@@ -1,21 +1,66 @@
-# Orbit Sim
+# 🛰️ Orbit Sim
 
-A Python orbital-mechanics laboratory designed as a serious engineering portfolio project.
+Interactive orbital mechanics laboratory in Python.
 
-## Current capabilities
+Build, propagate and analyse spacecraft orbits while learning numerical methods, astrodynamics and software engineering.
+
+## ✨ What it can do now
 
 - Classical orbital elements ↔ Cartesian state vectors
-- Two-body Earth propagation with fixed-step RK4
-- J2 oblateness perturbation
+- Two-body propagation with RK4
+- Earth J2 perturbation
 - Rotating-atmosphere drag model
-- Impulsive maneuver events
-- Hohmann, plane-change and bi-elliptic transfer analysis
-- Zero-revolution universal-variable Lambert solver
-- Ground-track, altitude and energy diagnostics
-- CLI and Streamlit visualization
-- Automated tests via GitHub Actions
+- Impulsive maneuvers
+- Hohmann transfers
+- Plane-change Δv
+- Bi-elliptic transfers
+- Universal-variable Lambert solver
+- Ground-track, altitude, speed and energy analysis
+- Interactive Streamlit + Plotly dashboard
+- CSV export from the dashboard
+- Automated tests with GitHub Actions
 
-## Architecture
+## 🖥️ Run it on your computer
+
+### Windows PowerShell
+
+```powershell
+git clone https://github.com/Miguel-Galrito/orbit-sim.git
+cd orbit-sim
+py -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install -e .
+pytest
+streamlit run streamlit_app.py
+```
+
+### macOS / Linux
+
+```bash
+git clone https://github.com/Miguel-Galrito/orbit-sim.git
+cd orbit-sim
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -e .
+pytest
+streamlit run streamlit_app.py
+```
+
+Once Streamlit starts, it prints a local URL, normally `http://localhost:8501`. Open that address in your browser.
+
+## ☁️ Publish the dashboard on the internet
+
+Orbit Sim is prepared for Streamlit Community Cloud.
+
+1. Go to `https://share.streamlit.io/` and sign in with GitHub.
+2. Connect your GitHub account.
+3. Click **Create app**.
+4. Select repository `Miguel-Galrito/orbit-sim`, branch `main`, and file `streamlit_app.py`.
+5. Click **Deploy**.
+
+Community Cloud creates a shareable `streamlit.app` URL and monitors the linked GitHub repository for updates. The repository includes `requirements.txt` so the dashboard dependencies are installed automatically. citeturn772748search0turn772748search1turn772748search3
+
+## 🧱 Architecture
 
 ```text
 src/orbitsim/
@@ -24,61 +69,28 @@ src/orbitsim/
   elements.py       Orbital-element conversions
   dynamics.py       Acceleration models
   propagation.py    RK4 propagator + maneuver events
-  maneuvers.py      Analytical transfer / maneuver design
+  maneuvers.py      Transfer and maneuver design
   lambert.py        Universal-variable Lambert solver
   analysis.py       Ground track, altitude and energy helpers
   cli.py            Command-line interface
+
+streamlit_app.py    Interactive mission-analysis dashboard
+tests/              Physics and regression tests
 ```
 
-The design rule is **physics first, visualization second**. The core returns NumPy arrays and small data objects so the same engine can run from tests, scripts, notebooks or a UI.
+**Physics first, visualization second.** The numerical core stays independent of Streamlit so it can be reused from tests, scripts, notebooks and future APIs.
 
-## Quick start
+## 🧪 Validation philosophy
 
-### Windows PowerShell
+The project treats numerical checks as first-class engineering work:
 
-```powershell
-py -m venv .venv
-.\.venv\Scripts\Activate.ps1
-python -m pip install -e .
-python -m pip install pytest
-pytest
-orbit-sim --altitude-km 400 --duration-orbits 2 --model j2
-streamlit run streamlit_app.py
-```
+- round-trip element/state conversion tests
+- two-body specific-energy conservation
+- analytical transfer sanity checks
+- regression tests for edge cases
+- automated test execution in CI
 
-### macOS / Linux
-
-```bash
-python3 -m venv .venv
-source .venv/bin/activate
-python -m pip install -e .
-python -m pip install pytest
-pytest
-orbit-sim --altitude-km 400 --duration-orbits 2 --model j2
-streamlit run streamlit_app.py
-```
-
-`venv` creates a separate Python environment for the project, which keeps its dependencies isolated from the rest of the machine.
-
-## Example
-
-```python
-import numpy as np
-from orbitsim import OrbitalElements, elements_to_state, propagate
-
-state0 = elements_to_state(OrbitalElements(
-    a_km=6778.137,
-    e=0.001,
-    i_rad=np.deg2rad(51.6),
-    raan_rad=0.0,
-    arg_perigee_rad=0.0,
-    true_anomaly_rad=0.0,
-))
-
-result = propagate(state0, duration_s=3*5400, dt_s=10, model="j2")
-```
-
-## Roadmap → project ladder
+## 🗺️ Roadmap
 
 ### Phase 1 — foundation ✅
 - [x] Clean package layout
@@ -95,20 +107,25 @@ result = propagate(state0, duration_s=3*5400, dt_s=10, model="j2")
 ### Phase 3 — mission design ✅
 - [x] Hohmann transfers
 - [x] Impulsive maneuver events
-- [x] Plane-change and bi-elliptic transfers
+- [x] Plane-change Δv
+- [x] Bi-elliptic transfer model
 - [x] Lambert solver
 
-### Phase 4 — professional tooling
-- [ ] Interactive 3D Plotly view
-- [ ] TLE ingestion + SGP4 truth/reference mode
+### Phase 4 — interactive engineering tool 🔄
+- [x] Interactive 3D Earth view
+- [x] Preset mission scenarios
+- [x] Live telemetry and diagnostics
+- [x] Ground-track and altitude plots
+- [x] Mission-design panel
+- [x] CSV trajectory export
+- [ ] TLE ingestion + SGP4 reference mode
 - [ ] Monte Carlo uncertainty propagation
 - [ ] Scenario/configuration files
 - [ ] Benchmark suite + profiling
-- [ ] Better error handling and typed public API
 
 ### Phase 5 — advanced astrodynamics
 - [ ] Higher-order gravity harmonics
-- [ ] NRLMSISE/JB2008-compatible atmosphere adapter
+- [ ] Higher-fidelity atmosphere adapter
 - [ ] Solar radiation pressure
 - [ ] Sun/Moon third-body gravity
 - [ ] N-body propagation
@@ -117,24 +134,25 @@ result = propagate(state0, duration_s=3*5400, dt_s=10, model="j2")
 
 ### Phase 6 — mission-analysis platform
 - [ ] Ground-station visibility and access windows
-- [ ] Sensor/coverage geometry
-- [ ] Mission scenario files with reproducible parameters
-- [ ] Reference notebooks and validation cases
+- [ ] Sensor / coverage geometry
+- [ ] Reproducible mission scenario files
+- [ ] Reference validation notebooks
 - [ ] Documentation website
-- [ ] End-to-end LEO → GEO mission case study
-- [ ] Export to CSV/JSON/Parquet
+- [ ] End-to-end LEO → GEO case study
+- [ ] CSV / JSON / Parquet export
 
-### Phase 7 — portfolio / research quality
-- [ ] Compare against poliastro / Orekit reference cases
-- [ ] Numerical accuracy report versus step size
+### Phase 7 — research / portfolio quality
+- [ ] Cross-check selected cases against established astrodynamics libraries
+- [ ] Numerical error vs. step-size report
 - [ ] Performance benchmark report
-- [ ] Continuous integration across supported Python versions
+- [ ] Multi-version Python CI matrix
 - [ ] API documentation generation
-- [ ] Release tags and changelog
+- [ ] Release tags + changelog
+- [ ] Architecture / design decision records
 
-## Scientific scope
+## ⚠️ Scientific scope
 
-This is educational and research-oriented software, not flight-certified software. Current perturbation models intentionally trade fidelity for transparency and testability. High-fidelity extensions are planned behind stable interfaces so the simple models remain useful for learning and regression tests.
+Orbit Sim is educational and research-oriented software, not flight-certified software. Simplified force and atmosphere models are intentionally transparent so that their assumptions can be inspected and tested.
 
 ## License
 
