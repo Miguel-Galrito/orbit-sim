@@ -58,7 +58,7 @@ orbit-sim --altitude-km 400 --duration-orbits 2 --model j2
 streamlit run streamlit_app.py
 ```
 
-Python's `venv` creates an isolated environment for the project; using `python -m pip` ensures packages are installed for the interpreter you are running. See the official Python packaging documentation for the standard workflow.
+`venv` creates a separate Python environment for the project, which keeps its dependencies isolated from the rest of the machine.
 
 ## Example
 
