@@ -51,12 +51,7 @@ Once Streamlit starts, it prints a local URL, normally `http://localhost:8501`. 
 ## ☁️ Publish the dashboard on the internet
 
 Orbit Sim is prepared for Streamlit Community Cloud.
-
-1. Go to `https://share.streamlit.io/` and sign in with GitHub.
-2. Connect your GitHub account.
-3. Click **Create app**.
-4. Select repository `Miguel-Galrito/orbit-sim`, branch `main`, and file `streamlit_app.py`.
-5. Click **Deploy**.
+(https://orbit-sim-nubbyuk4sivtzqkhbpy3mt.streamlit.app/)
 
 Community Cloud creates a shareable `streamlit.app` URL and monitors the linked GitHub repository for updates. The repository includes `requirements.txt` so the dashboard dependencies are installed automatically.
 
