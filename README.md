@@ -16,8 +16,10 @@ Build, propagate and analyse spacecraft orbits while learning numerical methods,
 - Bi-elliptic transfers
 - Universal-variable Lambert solver
 - Ground-track, altitude, speed and energy analysis
-- Interactive Streamlit + Plotly dashboard
-- CSV export from the dashboard
+- Interactive 3D orbit player with Play/Pause and time slider
+- Sun–Earth–Moon N-body laboratory
+- Streamlit + Plotly dashboard
+- CSV trajectory export
 - Automated tests with GitHub Actions
 
 ## 🖥️ Run it on your computer
@@ -48,12 +50,13 @@ streamlit run streamlit_app.py
 
 Once Streamlit starts, it prints a local URL, normally `http://localhost:8501`. Open that address in your browser.
 
-## ☁️ Publish the dashboard on the internet
+## ☁️ Public demo
 
-Orbit Sim is prepared for Streamlit Community Cloud.
-(https://orbit-sim-nubbyuk4sivtzqkhbpy3mt.streamlit.app/)
+A deployed Streamlit version is available at:
 
-Community Cloud creates a shareable `streamlit.app` URL and monitors the linked GitHub repository for updates. The repository includes `requirements.txt` so the dashboard dependencies are installed automatically.
+https://orbit-sim-nubbyuk4sivtzqkhbpy3mt.streamlit.app/
+
+The public app is intended as a demo. The Python package remains the source of truth for the numerical engine.
 
 ## 🧱 Architecture
 
@@ -66,6 +69,7 @@ src/orbitsim/
   propagation.py    RK4 propagator + maneuver events
   maneuvers.py      Transfer and maneuver design
   lambert.py        Universal-variable Lambert solver
+  nbody.py          Generic point-mass N-body RK4 propagator
   analysis.py       Ground track, altitude and energy helpers
   cli.py            Command-line interface
 
@@ -83,6 +87,7 @@ The project treats numerical checks as first-class engineering work:
 - two-body specific-energy conservation
 - analytical transfer sanity checks
 - regression tests for edge cases
+- N-body shape and finite-value checks
 - automated test execution in CI
 
 ## 🗺️ Roadmap
@@ -108,22 +113,26 @@ The project treats numerical checks as first-class engineering work:
 
 ### Phase 4 — interactive engineering tool 🔄
 - [x] Interactive 3D Earth view
+- [x] Orbit animation / time slider
 - [x] Preset mission scenarios
 - [x] Live telemetry and diagnostics
 - [x] Ground-track and altitude plots
 - [x] Mission-design panel
 - [x] CSV trajectory export
+- [x] First generic N-body propagator
+- [x] Sun–Earth–Moon laboratory demo
 - [ ] TLE ingestion + SGP4 reference mode
 - [ ] Monte Carlo uncertainty propagation
 - [ ] Scenario/configuration files
 - [ ] Benchmark suite + profiling
+- [ ] Better error handling and typed public API
 
 ### Phase 5 — advanced astrodynamics
 - [ ] Higher-order gravity harmonics
 - [ ] Higher-fidelity atmosphere adapter
 - [ ] Solar radiation pressure
-- [ ] Sun/Moon third-body gravity
-- [ ] N-body propagation
+- [ ] Sun/Moon third-body gravity in Earth-centered mode
+- [ ] Full mission-scale N-body scenarios
 - [ ] State transition matrices and sensitivity analysis
 - [ ] Differential correction / orbit determination
 
@@ -147,7 +156,7 @@ The project treats numerical checks as first-class engineering work:
 
 ## ⚠️ Scientific scope
 
-Orbit Sim is educational and research-oriented software, not flight-certified software. Simplified force and atmosphere models are intentionally transparent so that their assumptions can be inspected and tested.
+Orbit Sim is educational and research-oriented software, not flight-certified software. Simplified models are deliberately transparent so their assumptions can be inspected and tested.
 
 ## License
 
